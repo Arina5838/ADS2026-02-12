@@ -11,8 +11,8 @@ import java.util.Comparator;
 Алгоритм жадный. Для реализации обдумайте надежный шаг.
 */
 
-public class B_Sheduler {
-    public static void main(String[] args) {
+public class B_Sheduler {//основной класс программы
+    public static void main(String[] args) {// метод содержащий занятия
         B_Sheduler instance = new B_Sheduler();
         Event[] events = {new Event(0, 3), new Event(0, 1), new Event(1, 2), new Event(3, 5),
                 new Event(1, 3), new Event(1, 3), new Event(1, 3), new Event(3, 6),
@@ -33,18 +33,18 @@ public class B_Sheduler {
         //Начало и конец событий могут совпадать.
         List<Event> result= new ArrayList<>();
         //ваше решение.
-        List<Event> validEvents = new ArrayList<>();
-        for (Event event :events){
-            if(event.start >= from && event.stop <=to){
-                validEvents.add(event);
+        List<Event> validEvents = new ArrayList<>();// создает вспомогательный список, сюда будут добавляться события которые встанут в расписание
+        for (Event event :events){// перебирает все элементы события из исходного массива
+            if(event.start >= from && event.stop <=to){//проверка правильности события
+                validEvents.add(event);// добавляет событие
             }
         }
-        validEvents.sort(Comparator.comparingInt((e->e.stop)));
-        int lastEndTime = from;
-        for (Event event : validEvents){
-            if (event.start >= lastEndTime){
-                result.add(event);
-                lastEndTime=event.stop;
+        validEvents.sort(Comparator.comparingInt((e->e.stop)));//сортировка событий
+        int lastEndTime = from;//создание переменной
+        for (Event event : validEvents){// сортировк из уже отсортированного списка
+            if (event.start >= lastEndTime){// проверка, чтобы время не накладывалось
+                result.add(event);// добавляем событие в окончательный список
+                lastEndTime=event.stop;// обновление окончания события, чтобы не начиналось раньше этого
             }
         }
 
@@ -53,18 +53,18 @@ public class B_Sheduler {
     }
 
     //событие у аудитории(два поля: начало и конец)
-    static class Event {
-        int start;
-        int stop;
+    static class Event {// вложенный класс
+        int start;// хранит время начала
+        int stop;// хранит окончание события
 
-        Event(int start, int stop) {
-            this.start = start;
-            this.stop = stop;
+        Event(int start, int stop) {// конструктор вызывается при создании нового объекта события
+            this.start = start;// присваиваем полю текущего объекта значение переданное в конструктор
+            this.stop = stop;// то же, что и в предыдущем
         }
 
-        @Override
+        @Override// переопределение метода родительского класса
         public String toString() {
             return "(" + start + ":" + stop + ")";
-        }
+        }// переопределяет чтобы выводилось красиво
     }
 }

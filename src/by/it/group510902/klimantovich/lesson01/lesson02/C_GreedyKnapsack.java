@@ -27,13 +27,12 @@ public class C_GreedyKnapsack {
         long finishTime = System.currentTimeMillis();
         System.out.printf("Общая стоимость %f (время %d)", costFinal, finishTime - startTime);
     }
-
     double calc(InputStream inputStream) throws FileNotFoundException {
         Scanner input = new Scanner(inputStream);
-        int n = input.nextInt();      //сколько предметов в файле
-        int W = input.nextInt();      //какой вес у рюкзака
-        Item[] items = new Item[n];   //получим список предметов
-        for (int i = 0; i < n; i++) { //создавая каждый конструктором
+        int n = input.nextInt();//сколько предметов в файле
+        int W = input.nextInt();//какой вес у рюкзака
+        Item[] items = new Item[n];//получим список предметов
+        for (int i = 0; i < n; i++) {//создавая каждый конструктором
             items[i] = new Item(input.nextInt(), input.nextInt());
         }
         //покажем предметы
@@ -41,18 +40,14 @@ public class C_GreedyKnapsack {
             System.out.println(item);
         }
         System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n", n, W);
-
         // Решение задачи о непрерывном рюкзаке
         double result = 0;
         int remainingWeight = W;
-
         // Сортируем предметы по убыванию удельной стоимости (cost/weight)
         Arrays.sort(items);
-
         // Жадный алгоритм: берем предметы с наибольшей удельной стоимостью
         for (Item item : items) {
             if (remainingWeight <= 0) break;
-
             if (item.weight <= remainingWeight) {
                 // Берем предмет целиком
                 result += item.cost;
@@ -67,20 +62,16 @@ public class C_GreedyKnapsack {
                 remainingWeight = 0;
             }
         }
-
         System.out.printf("Удалось собрать рюкзак на сумму %f\n", result);
         return result;
     }
-
     private static class Item implements Comparable<Item> {
         int cost;
         int weight;
-
         Item(int cost, int weight) {
             this.cost = cost;
             this.weight = weight;
         }
-
         @Override
         public String toString() {
             return "Item{" +
@@ -89,13 +80,11 @@ public class C_GreedyKnapsack {
                     ", valuePerKg=" + String.format("%.2f", (double)cost/weight) +
                     '}';
         }
-
         @Override
         public int compareTo(Item o) {
             // Сортировка по убыванию удельной стоимости (cost/weight)
             double thisValuePerKg = (double) this.cost / this.weight;
             double otherValuePerKg = (double) o.cost / o.weight;
-
             // Для сортировки по убыванию
             if (thisValuePerKg > otherValuePerKg) {
                 return -1;
